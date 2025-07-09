@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Open Sans", sans-serif;
+    font-style: normal;
+}
+
+.Headtext{
+    font-weight: 300;
+    text-align: center;
+    margin: 15px;
+}
+.formbox{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    height: 500px;
+    width: 500px;
+    /* background-color: bisque; */
+    margin-left: 400px;
+}
+.name{
+    margin: 26px;
+    align-self: center;
+    /* background-color: blue; */
+    align-items: center;
+}
+
+.pass{
+    margin: 10px;
+}
+
+.btn{
+    margin-left: 20px;
+    margin-top: 10px;
+}
