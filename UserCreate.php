@@ -45,7 +45,8 @@ if (mysqli_query($conn, $table_creation_query)) {
 if($_SERVER["REQUEST_METHOD"]==="POST")
 {
     $name = trim(htmlspecialchars($_POST["username"]?? ""));
-    $pass = trim(htmlspecialchars($_POST["pass"]?? ""));
+    $raw_pass = trim($_POST["pass"] ?? ""); 
+    // $pass = password_hash($raw_pass, PASSWORD_DEFAULT); 
 
     if(empty($name)){
         $errors[]="Name is Required.";
@@ -53,14 +54,15 @@ if($_SERVER["REQUEST_METHOD"]==="POST")
     if(strlen($name)<3){
         $errors [] =  "Minimum 3 words Required for Name ";
     }
-    if (empty($pass)) {
+    if (empty($raw_pass)) {
         $errors[] = "password is required.";
     }
-    if(strlen($pass)<6){
+    if(strlen($raw_pass)<6){
         $errors [] = "Minimum 6 Characters required for strong Password";
     }
 }
 if (empty($errors)) {
+        $pass = password_hash($raw_pass, PASSWORD_DEFAULT);
         $stmt = mysqli_prepare($conn, "INSERT INTO users (username, password) VALUES (?, ?)");
         mysqli_stmt_bind_param($stmt, "ss", $name, $pass);
         // echo "<h3>Form submitted successfully!</h3>";
@@ -71,7 +73,7 @@ if (empty($errors)) {
             echo "<p><strong>Name:</strong> $name</p>";
             echo "<p><strong>Password:</strong> <i>Stored securely</i></p>";
             echo "<p><i>Account successfully created and stored in DB</i></p>";
-            echo '<a href="form.html">Sign In</a>';
+            echo '<a href="signin.html">Sign In</a>';
         } else {
             echo "Error inserting data: " . mysqli_error($conn);
         }
